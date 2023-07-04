@@ -35,7 +35,7 @@ namespace SBReceiver.Services
 
         private static void GreetingMessage()
         {
-            var description = "This is an app to illustrate how microservices work with Azure Service Bus.";
+            var description = "This is an app to demonstrate how microservices work with Azure Service Bus.";
             Console.WriteLine("Azure Service Bus - Receiver");
             Console.WriteLine(description);
             Console.WriteLine("{0} {1}", Regex.Replace(description, ".", "="), Environment.NewLine);
