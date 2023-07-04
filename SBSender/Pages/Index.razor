@@ -1,0 +1,38 @@
+﻿@page "/"
+@inject IQueueService queue
+@inject IConfiguration config
+@inject IToastService toast
+
+<PageTitle>Azure Service Bus :: Sender</PageTitle>
+
+<h1>Azure Service Bus - Sender</h1>
+
+<p>This is an app to illustrate how microservices work with Azure Service Bus.</p>
+
+<hr />
+
+<EditForm Model="@Person" OnValidSubmit="@PublishMessage">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="firstname">First Name</label>
+        <InputText id="firstname" class="form-control" @bind-Value="Person.FirstName" />
+    </div>
+    <div class="mb-3">
+        <label for="lastname">Last Name</label>
+        <InputText id="lastname" class="form-control" @bind-Value="Person.LastName" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    private PersonModel Person = new PersonModel();
+
+    private async Task PublishMessage()
+    {
+        await queue.SendMessageAsync(Person, config.GetValue<string>("QueueName"));
+        Person = new PersonModel();
+        toast.ShowSuccess("Successful");
+    }
+}
